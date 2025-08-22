@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChefGrocer - App Preview Video Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* iPhone 15 Pro dimensions for video: 886x1920px */
+        .phone-frame {
+            width: 443px;
+            height: 960px;
+            background: #000;
+            border-radius: 50px;
+            padding: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .phone-screen {
+            width: 427px;
+            height: 944px;
+            background: white;
+            border-radius: 42px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .status-bar {
+            height: 54px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .app-content {
+            height: 890px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #ec4899 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .voice-indicator {
+            width: 20px;
+            height: 20px;
+            background: #ef4444;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.8s ease-out forwards;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .scale-up {
+            animation: scaleUp 0.6s ease-out forwards;
+        }
+        
+        @keyframes scaleUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .typing {
+            animation: typing 2s steps(30) forwards;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid currentColor;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 12px 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transform: translateY(50px);
+            opacity: 0;
+        }
+        
+        .recipe-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 16px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+            transform: translateY(50px);
+            opacity: 0;
+        }
+        
+        .store-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            transform: translateX(-50px);
+            opacity: 0;
+        }
+        
+        .pricing-card {
+            border-radius: 20px;
+            padding: 24px;
+            margin: 16px;
+            text-align: center;
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .screen.active {
+            opacity: 1;
+        }
+        
+        .progress-bar {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: white;
+            border-radius: 2px;
+            width: 0%;
+            animation: progress 30s linear forwards;
+        }
+        
+        @keyframes progress {
+            to { width: 100%; }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 p-8 flex justify-center items-center min-h-screen">
+    <div class="phone-frame">
+        <div class="phone-screen">
+            <div class="status-bar">
+                <span>9:41</span>
+                <span id="screen-title">ChefGrocer</span>
+                <span>100%</span>
+            </div>
+            
+            <!-- Screen 1: Hero/Launch -->
+            <div class="screen active app-content" id="screen1">
+                <div class="hero-section">
+                    <div class="text-8xl mb-6 scale-up">👨‍🍳</div>
+                    <h1 class="text-4xl font-bold mb-4 slide-in">ChefGrocer</h1>
+                    <p class="text-xl opacity-90 mb-8 fade-in">Your AI-Powered Kitchen Assistant</p>
+                    <div class="bg-white/20 backdrop-blur-sm rounded-full px-8 py-4 inline-flex items-center fade-in">
+                        <div class="voice-indicator"></div>
+                        <span class="text-lg font-semibold">Voice Commands Ready</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Screen 2: Voice Cooking -->
+            <div class="screen app-content bg-gradient-to-b from-purple-50 to-white" id="screen2">
+                <div class="text-center pt-16 px-6">
+                    <div class="text-8xl mb-6">🎤</div>
+                    <h1 class="text-3xl font-bold mb-4 text-gray-800">Voice Cooking</h1>
+                    <p class="text-gray-600 mb-8 text-lg">Hands-free AI guidance</p>
+                </div>
+                
+                <div class="bg-white mx-4 rounded-3xl p-8 shadow-2xl">
+                    <div class="text-center mb-6">
+                        <div class="inline-flex items-center bg-red-100 px-6 py-3 rounded-full">
+                            <div class="voice-indicator"></div>
+                            <span class="font-semibold text-red-700">Listening...</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-2xl p-6 mb-6">
+                        <p class="text-gray-700 text-lg italic typing">"What's the next step?"</p>
+                    </div>
+                    
+                    <div class="bg-blue-50 rounded-2xl p-6">
+                        <p class="text-blue-700 text-lg">"Add cream and simmer for 3 minutes!"</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Screen 3: Recipe Discovery -->
+            <div class="screen app-content bg-gray-50" id="screen3">
+                <div class="bg-white px-6 py-4 border-b">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">500,000+ Recipes</h2>
+                    <div class="bg-gray-100 rounded-full px-4 py-3 flex items-center">
+                        <div class="text-gray-400 text-xl mr-3">🔍</div>
+                        <span class="text-gray-600">Search anything...</span>
+                    </div>
+                </div>
+                
+                <div class="p-4">
+                    <div class="recipe-card">
+                        <div class="h-40 bg-gradient-to-br from-orange-400 to-pink-400 flex items-center justify-center">
+                            <div class="text-5xl">🍝</div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-bold text-lg mb-2">Creamy Garlic Pasta</h3>
+                            <div class="flex items-center text-sm text-gray-600 mb-3">
+                                <span class="mr-4">⭐ 4.8</span>
+                                <span class="mr-4">⏱️ 20 min</span>
+                                <span>💰 $12.50</span>
+                            </div>
+                            <div class="bg-blue-500 text-white px-4 py-2 rounded-full text-center font-semibold">
+                                Cook Now
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Screen 4: Store Locator -->
+            <div class="screen app-content bg-gray-50" id="screen4">
+                <div class="bg-white px-6 py-4 border-b">
+                    <h2 class="text-2xl font-bold mb-4">Nearby Stores</h2>
+                    <div class="flex items-center text-gray-600">
+                        <span class="mr-2">📍</span>
+                        <span>Real locations via OpenStreetMap</span>
+                    </div>
+                </div>
+                
+                <div class="p-4">
+                    <div class="store-card">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="font-bold text-lg">Walmart Supercenter</h3>
+                                <p class="text-gray-600">3405 W Kimberly Rd</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-semibold text-green-600">0.8 miles</div>
+                                <div class="text-sm text-gray-500">Open 24/7</div>
+                            </div>
+                        </div>
+                        <div class="bg-blue-500 text-white px-4 py-2 rounded-full text-center font-semibold">
+                            Get Directions
+                        </div>
+                    </div>
+                    
+                    <div class="store-card">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="font-bold text-lg">Hy-Vee Food Store</h3>
+                                <p class="text-gray-600">1823 E Kimberly Rd</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-semibold text-green-600">1.2 miles</div>
+                                <div class="text-sm text-gray-500">6am - 11pm</div>
+                            </div>
+                        </div>
+                        <div class="bg-blue-500 text-white px-4 py-2 rounded-full text-center font-semibold">
+                            Get Directions
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Screen 5: Pricing -->
+            <div class="screen app-content bg-gradient-to-b from-indigo-50 to-white" id="screen5">
+                <div class="text-center pt-12 px-6">
+                    <div class="text-6xl mb-4">✨</div>
+                    <h1 class="text-3xl font-bold mb-3 text-gray-800">Choose Your Plan</h1>
+                </div>
+                
+                <div class="px-4">
+                    <div class="pricing-card bg-gradient-to-r from-green-500 to-blue-500 text-white">
+                        <h3 class="text-2xl font-bold mb-2">Premium</h3>
+                        <div class="text-4xl font-bold mb-4">$4.99<span class="text-lg opacity-75">/month</span></div>
+                        <ul class="text-left space-y-2 mb-6 opacity-95">
+                            <li>✓ Voice cooking guidance</li>
+                            <li>✓ AI meal planning</li>
+                            <li>✓ Price comparison</li>
+                            <li>✓ Nutrition tracking</li>
+                        </ul>
+                        <div class="bg-white text-green-600 px-6 py-3 rounded-full font-bold">
+                            Start Free Trial
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-card bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+                        <h3 class="text-xl font-bold mb-2">Lifetime Pass</h3>
+                        <div class="text-3xl font-bold mb-4">$99.99<span class="text-lg opacity-75"> once</span></div>
+                        <div class="bg-white text-purple-600 px-6 py-3 rounded-full font-bold">
+                            Best Value
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Screen 6: Call to Action -->
+            <div class="screen app-content" id="screen6">
+                <div class="hero-section">
+                    <div class="text-8xl mb-6">🚀</div>
+                    <h1 class="text-4xl font-bold mb-6">Start Cooking Smarter</h1>
+                    <div class="space-y-4 mb-8">
+                        <div class="bg-white/20 backdrop-blur-sm rounded-2xl px-8 py-4">
+                            <div class="text-2xl font-bold">500,000+ Recipes</div>
+                        </div>
+                        <div class="bg-white/20 backdrop-blur-sm rounded-2xl px-8 py-4">
+                            <div class="text-2xl font-bold">Voice AI Guidance</div>
+                        </div>
+                        <div class="bg-white/20 backdrop-blur-sm rounded-2xl px-8 py-4">
+                            <div class="text-2xl font-bold">Real Store Locations</div>
+                        </div>
+                    </div>
+                    <div class="bg-white text-purple-600 px-10 py-4 rounded-full text-xl font-bold">
+                        Download ChefGrocer
+                    </div>
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed bottom-4 right-4 space-x-4">
+        <button id="recordBtn" class="bg-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600">
+            🔴 Record Preview
+        </button>
+        <button id="restartBtn" class="bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-600">
+            🔄 Restart
+        </button>
+    </div>
+
+    <script>
+        class AppPreviewGenerator {
+            constructor() {
+                this.currentScreen = 0;
+                this.screens = [
+                    { id: 'screen1', title: 'ChefGrocer', duration: 5000 },
+                    { id: 'screen2', title: 'Voice Cooking', duration: 5000 },
+                    { id: 'screen3', title: 'Recipe Discovery', duration: 5000 },
+                    { id: 'screen4', title: 'Store Locator', duration: 5000 },
+                    { id: 'screen5', title: 'Premium Plans', duration: 5000 },
+                    { id: 'screen6', title: 'Download Now', duration: 5000 }
+                ];
+                this.isRecording = false;
+                this.mediaRecorder = null;
+                this.recordedChunks = [];
+                
+                this.init();
+            }
+            
+            init() {
+                document.getElementById('recordBtn').addEventListener('click', () => this.toggleRecording());
+                document.getElementById('restartBtn').addEventListener('click', () => this.restart());
+                
+                // Auto-start preview
+                setTimeout(() => this.startPreview(), 1000);
+            }
+            
+            async toggleRecording() {
+                if (!this.isRecording) {
+                    await this.startRecording();
+                } else {
+                    this.stopRecording();
+                }
+            }
+            
+            async startRecording() {
+                try {
+                    const stream = await navigator.mediaDevices.getDisplayMedia({
+                        video: {
+                            width: 886,
+                            height: 1920,
+                            frameRate: 30
+                        },
+                        audio: false
+                    });
+                    
+                    this.mediaRecorder = new MediaRecorder(stream, {
+                        mimeType: 'video/webm;codecs=vp9'
+                    });
+                    
+                    this.mediaRecorder.ondataavailable = (event) => {
+                        if (event.data.size > 0) {
+                            this.recordedChunks.push(event.data);
+                        }
+                    };
+                    
+                    this.mediaRecorder.onstop = () => this.downloadRecording();
+                    
+                    this.mediaRecorder.start();
+                    this.isRecording = true;
+                    
+                    document.getElementById('recordBtn').textContent = '⏹️ Stop Recording';
+                    document.getElementById('recordBtn').className = 'bg-gray-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-600';
+                    
+                    // Auto-stop after 30 seconds
+                    setTimeout(() => {
+                        if (this.isRecording) this.stopRecording();
+                    }, 30000);
+                    
+                } catch (err) {
+                    console.error('Error starting recording:', err);
+                    alert('Screen recording not supported. Use external recording software.');
+                }
+            }
+            
+            stopRecording() {
+                if (this.mediaRecorder && this.isRecording) {
+                    this.mediaRecorder.stop();
+                    this.isRecording = false;
+                    
+                    document.getElementById('recordBtn').textContent = '🔴 Record Preview';
+                    document.getElementById('recordBtn').className = 'bg-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600';
+                }
+            }
+            
+            downloadRecording() {
+                if (this.recordedChunks.length > 0) {
+                    const blob = new Blob(this.recordedChunks, { type: 'video/webm' });
+                    const url = URL.createObjectURL(blob);
+                    
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'ChefGrocer-App-Preview.webm';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    URL.revokeObjectURL(url);
+                    this.recordedChunks = [];
+                }
+            }
+            
+            startPreview() {
+                this.showScreen(0);
+                this.scheduleNextScreen();
+            }
+            
+            showScreen(index) {
+                // Hide all screens
+                document.querySelectorAll('.screen').forEach(screen => {
+                    screen.classList.remove('active');
+                });
+                
+                // Show current screen
+                const screen = document.getElementById(this.screens[index].id);
+                screen.classList.add('active');
+                
+                // Update title
+                document.getElementById('screen-title').textContent = this.screens[index].title;
+                
+                // Animate elements
+                this.animateScreenElements(screen);
+                
+                this.currentScreen = index;
+            }
+            
+            animateScreenElements(screen) {
+                // Reset animations
+                screen.querySelectorAll('.slide-in, .fade-in, .scale-up, .feature-card, .recipe-card, .store-card, .pricing-card').forEach(el => {
+                    el.style.animation = 'none';
+                    el.offsetHeight; // Trigger reflow
+                    el.style.animation = null;
+                });
+                
+                // Stagger animations
+                setTimeout(() => {
+                    screen.querySelectorAll('.feature-card').forEach((card, i) => {
+                        setTimeout(() => {
+                            card.style.animation = 'slideIn 0.6s ease-out forwards';
+                        }, i * 200);
+                    });
+                    
+                    screen.querySelectorAll('.recipe-card').forEach((card, i) => {
+                        setTimeout(() => {
+                            card.style.animation = 'slideIn 0.8s ease-out forwards';
+                        }, i * 300);
+                    });
+                    
+                    screen.querySelectorAll('.store-card').forEach((card, i) => {
+                        setTimeout(() => {
+                            card.style.animation = 'slideIn 0.6s ease-out forwards';
+                        }, i * 200);
+                    });
+                    
+                    screen.querySelectorAll('.pricing-card').forEach((card, i) => {
+                        setTimeout(() => {
+                            card.style.animation = 'scaleUp 0.8s ease-out forwards';
+                        }, i * 400);
+                    });
+                }, 100);
+            }
+            
+            scheduleNextScreen() {
+                setTimeout(() => {
+                    const nextIndex = (this.currentScreen + 1) % this.screens.length;
+                    this.showScreen(nextIndex);
+                    
+                    if (nextIndex !== 0) {
+                        this.scheduleNextScreen();
+                    } else {
+                        // Loop back to start after a pause
+                        setTimeout(() => this.startPreview(), 2000);
+                    }
+                }, this.screens[this.currentScreen].duration);
+            }
+            
+            restart() {
+                this.currentScreen = 0;
+                this.startPreview();
+            }
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            new AppPreviewGenerator();
+        });
+    </script>
+</body>
+</html>

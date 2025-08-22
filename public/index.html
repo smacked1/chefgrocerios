@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    
+    <!-- SEO Meta Tags -->
+    <title>ChefGrocer - AI-Powered Smart Cooking Assistant | Meal Planning & Nutrition</title>
+    <meta name="description" content="Transform your cooking with ChefGrocer's AI-powered meal planning, smart grocery lists, USDA nutrition data, and voice-guided cooking assistance. Start your free trial today!" />
+    <meta name="keywords" content="AI cooking assistant, meal planning, nutrition database, grocery list, USDA food data, recipe management, smart cooking" />
+    <meta name="author" content="ChefGrocer" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph Tags for Social Media -->
+    <meta property="og:title" content="ChefGrocer - AI-Powered Smart Cooking Assistant" />
+    <meta property="og:description" content="Transform your cooking with AI-powered meal planning, smart grocery lists, and comprehensive nutrition data. Start your free trial today!" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://chefgrocer.replit.app" />
+    <meta property="og:image" content="https://chefgrocer.replit.app/og-image.jpg" />
+    <meta property="og:site_name" content="ChefGrocer" />
+    
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ChefGrocer - AI-Powered Smart Cooking Assistant" />
+    <meta name="twitter:description" content="Transform your cooking with AI-powered meal planning, smart grocery lists, and comprehensive nutrition data." />
+    <meta name="twitter:image" content="https://chefgrocer.replit.app/og-image.jpg" />
+    
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Theme Color for Mobile -->
+    <meta name="theme-color" content="#ff5500" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="ChefGrocer" />
+    
+    <!-- iOS Specific Meta Tags -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    
+    <!-- Prevent zoom on form focus (iOS) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <!-- Performance and Security -->
+    <link rel="preconnect" href="https://api.nal.usda.gov" />
+    <link rel="preconnect" href="https://api.openai.com" />
+    <link rel="dns-prefetch" href="https://js.stripe.com" />
+    
+    <!-- Camera and Microphone Permissions Policy -->
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
+    
+    <!-- Structured Data for Rich Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "ChefGrocer",
+      "description": "AI-powered smart cooking assistant with meal planning and nutrition tracking",
+      "url": "https://chefgrocer.replit.app",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "1.99",
+        "priceCurrency": "USD",
+        "priceValidUntil": "2025-12-31"
+      },
+      "featureList": ["AI Meal Planning", "USDA Nutrition Database", "Voice Commands", "Smart Shopping Lists"]
+    }
+    </script>
+  <script type="module" crossorigin src="/assets/index-Dn-wlLP2.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-wLWesWIA.css">
+
+  <body>
+    <div id="root"></div>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+          try {
+            const registration = await navigator.serviceWorker.register('/sw.js');
+            console.log('ChefGrocer SW registered:', registration);
+            
+            // Check for updates
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // New content available, show update notification
+                  if (confirm('New version available! Reload to update?')) {
+                    window.location.reload();
+                  }
+                }
+              });
+            });
+          } catch (error) {
+            console.log('ChefGrocer SW registration failed:', error);
+          }
+        });
+      }
+      
+      // Handle PWA install prompt
+      let deferredPrompt;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        // Show install button or banner
+        const installBanner = document.createElement('div');
+        installBanner.innerHTML = `
+          <div style="position: fixed; top: 0; left: 0; right: 0; background: #ff5500; color: white; padding: 12px; text-align: center; z-index: 1000;">
+            <span>📱 Install ChefGrocer for the best experience!</span>
+            <button onclick="installPWA()" style="margin-left: 10px; background: white; color: #ff5500; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Install</button>
+            <button onclick="this.parentElement.parentElement.remove()" style="margin-left: 6px; background: transparent; color: white; border: 1px solid white; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Later</button>
+          </div>
+        `;
+        document.body.appendChild(installBanner);
+      });
+      
+      window.installPWA = async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log('PWA install result:', outcome);
+          deferredPrompt = null;
+          
+          // Remove install banner
+          const banner = document.querySelector('[style*="position: fixed"]')?.parentElement;
+          if (banner) banner.remove();
+        }
+      };
+      
+      // Handle app installed
+      window.addEventListener('appinstalled', () => {
+        console.log('ChefGrocer PWA installed successfully!');
+        deferredPrompt = null;
+      });
+    </script>
+    
+    <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
+    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
+  </body>
+</html>

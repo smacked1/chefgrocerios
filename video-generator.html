@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ChefGrocer Video Export</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <style>
+            .phone-container {
+                width: 430px;
+                height: 932px;
+                background: #000;
+                border-radius: 50px;
+                padding: 8px;
+                margin: 20px auto;
+                position: relative;
+            }
+
+            .phone-screen {
+                width: 414px;
+                height: 916px;
+                background: white;
+                border-radius: 42px;
+                overflow: hidden;
+                font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            }
+
+            .status-bar {
+                height: 44px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 20px;
+                color: white;
+                font-weight: 600;
+            }
+
+            .screen-content {
+                height: 872px;
+                position: relative;
+            }
+
+            .hero-bg {
+                background: linear-gradient(
+                    135deg,
+                    #4f46e5 0%,
+                    #7c3aed 50%,
+                    #ec4899 100%
+                );
+                color: white;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: 40px;
+            }
+
+            .voice-dot {
+                width: 16px;
+                height: 16px;
+                background: #ef4444;
+                border-radius: 50%;
+                animation: pulse 1.5s infinite;
+                margin-right: 8px;
+            }
+
+            @keyframes pulse {
+                0%,
+                100% {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+                50% {
+                    opacity: 0.7;
+                    transform: scale(1.1);
+                }
+            }
+
+            .feature-card {
+                background: white;
+                border-radius: 16px;
+                padding: 20px;
+                margin: 16px 20px;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            }
+
+            .recipe-card {
+                background: white;
+                border-radius: 20px;
+                margin: 16px;
+                overflow: hidden;
+                box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+            }
+
+            .store-card {
+                background: white;
+                border-radius: 16px;
+                padding: 20px;
+                margin: 16px;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            }
+
+            .price-card {
+                border-radius: 20px;
+                padding: 24px;
+                margin: 16px;
+                text-align: center;
+                color: white;
+            }
+
+            .export-controls {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: white;
+                padding: 20px;
+                border-radius: 12px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+                border: 1px solid #e5e7eb;
+            }
+
+            .btn {
+                background: #3b82f6;
+                color: white;
+                padding: 12px 24px;
+                border: none;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                margin: 8px 0;
+                width: 100%;
+                transition: background 0.2s;
+            }
+
+            .btn:hover {
+                background: #2563eb;
+            }
+
+            .btn:disabled {
+                background: #9ca3af;
+                cursor: not-allowed;
+            }
+
+            .progress {
+                width: 100%;
+                height: 8px;
+                background: #e5e7eb;
+                border-radius: 4px;
+                overflow: hidden;
+                margin: 16px 0;
+            }
+
+            .progress-fill {
+                height: 100%;
+                background: #10b981;
+                width: 0%;
+                transition: width 0.3s ease;
+            }
+
+            .instructions {
+                background: #f3f4f6;
+                padding: 16px;
+                border-radius: 8px;
+                margin-top: 16px;
+                font-size: 14px;
+                line-height: 1.5;
+            }
+        </style>
+    </head>
+    <body class="bg-gray-50">
+        <div class="export-controls">
+            <h3 class="font-bold text-lg mb-4">Video Export</h3>
+            <button id="exportBtn" class="btn">📹 Export 30 Frames</button>
+            <div class="progress">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div id="status" class="text-sm text-gray-600 mt-2">
+                Ready to export
+            </div>
+
+            <div class="instructions">
+                <strong>Instructions:</strong><br />
+                1. Click "Export 30 Frames"<br />
+                2. Wait for all frames to download<br />
+                3. Use any video editor to combine frames<br />
+                4. Set to 1 frame per second = 30-second video
+            </div>
+
+            <div class="mt-4 text-xs text-gray-500">
+                <strong>Recommended Tools:</strong><br />
+                • Online: ezgif.com, canva.com<br />
+                • Desktop: iMovie, Windows Photos<br />
+                • Mobile: InShot, CapCut
+            </div>
+        </div>
+
+        <div class="phone-container" id="phoneContainer">
+            <div class="phone-screen">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span id="screenTitle">ChefGrocer</span>
+                    <span>100%</span>
+                </div>
+                <div class="screen-content" id="screenContent">
+                    <!-- Frame content will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <script>
+            class VideoFrameExporter {
+                constructor() {
+                    this.currentFrame = 0;
+                    this.totalFrames = 30;
+                    this.isExporting = false;
+
+                    this.frames = [
+                        // Hero frames (0-4)
+                        {
+                            title: "ChefGrocer",
+                            content: this.getHeroFrame(
+                                "👨‍🍳",
+                                "ChefGrocer",
+                                "Your AI-Powered Kitchen Assistant",
+                            ),
+                        },
+                        {
+                            title: "ChefGrocer",
+                            content: this.getHeroFrame(
+                                "👨‍🍳",
+                                "ChefGrocer",
+                                "Voice Commands Ready",
+                            ),
+                        },
+                        {
+                            title: "ChefGrocer",
+                            content: this.getHeroFrame(
+                                "🎯",
+                                "Smart Cooking",
+                                "AI-Powered Assistance",
+                            ),
+                        },
+                        {
+                            title: "ChefGrocer",
+                            content: this.getHeroFrame(
+                                "🛒",
+                                "Smart Shopping",
+                                "Real Store Locations",
+                            ),
+                        },
+                        {
+                            title: "ChefGrocer",
+                            content: this.getHeroFrame(
+                                "🎤",
+                                "Voice Control",
+                                "Hands-Free Cooking",
+                            ),
+                        },
+
+                        // Voice cooking frames (5-9)
+                        {
+                            title: "Voice Cooking",
+                            content: this.getVoiceFrame1(),
+                        },
+                        {
+                            title: "Voice Cooking",
+                            content: this.getVoiceFrame2(),
+                        },
+                        {
+                            title: "Voice Cooking",
+                            content: this.getVoiceFrame3(),
+                        },
+                        {
+                            title: "Voice Cooking",
+                            content: this.getVoiceFrame4(),
+                        },
+                        {
+                            title: "Voice Cooking",
+                            content: this.getVoiceFrame5(),
+                        },
+
+                        // Recipe frames (10-14)
+                        {
+                            title: "Recipe Discovery",
+                            content: this.getRecipeFrame1(),
+                        },
+                        {
+                            title: "Recipe Discovery",
+                            content: this.getRecipeFrame2(),
+                        },
+                        {
+                            title: "Recipe Discovery",
+                            content: this.getRecipeFrame3(),
+                        },
+                        {
+                            title: "Recipe Discovery",
+                            content: this.getRecipeFrame4(),
+                        },
+                        {
+                            title: "Recipe Discovery",
+                            content: this.getRecipeFrame5(),
+                        },
+
+                        // Store locator frames (15-19)
+                        {
+                            title: "Store Locator",
+                            content: this.getStoreFrame1(),
+                        },
+                        {
+                            title: "Store Locator",
+                            content: this.getStoreFrame2(),
+                        },
+                        {
+                            title: "Store Locator",
+                            content: this.getStoreFrame3(),
+                        },
+                        {
+                            title: "Store Locator",
+                            content: this.getStoreFrame4(),
+                        },
+                        {
+                            title: "Store Locator",
+                            content: this.getStoreFrame5(),
+                        },
+
+                        // Pricing frames (20-24)
+                        {
+                            title: "Premium Plans",
+                            content: this.getPricingFrame1(),
+                        },
+                        {
+                            title: "Premium Plans",
+                            content: this.getPricingFrame2(),
+                        },
+                        {
+                            title: "Premium Plans",
+                            content: this.getPricingFrame3(),
+                        },
+                        {
+                            title: "Premium Plans",
+                            content: this.getPricingFrame4(),
+                        },
+                        {
+                            title: "Premium Plans",
+                            content: this.getPricingFrame5(),
+                        },
+
+                        // CTA frames (25-29)
+                        { title: "Download Now", content: this.getCTAFrame1() },
+                        { title: "Download Now", content: this.getCTAFrame2() },
+                        { title: "Download Now", content: this.getCTAFrame3() },
+                        { title: "Download Now", content: this.getCTAFrame4() },
+                        { title: "Download Now", content: this.getCTAFrame5() },
+                    ];
+
+                    this.init();
+                }
+
+                init() {
+                    document
+                        .getElementById("exportBtn")
+                        .addEventListener("click", () => this.startExport());
+                    this.loadFrame(0);
+                }
+
+                getHeroFrame(emoji, title, subtitle) {
+                    return `
+                    <div class="hero-bg">
+                        <div style="font-size: 6rem; margin-bottom: 2rem;">${emoji}</div>
+                        <h1 style="font-size: 3rem; font-weight: bold; margin-bottom: 1rem;">${title}</h1>
+                        <p style="font-size: 1.25rem; opacity: 0.9; margin-bottom: 2rem;">${subtitle}</p>
+                        <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 2rem; padding: 1rem 2rem; display: inline-flex; align-items: center;">
+                            <div class="voice-dot"></div>
+                            <span style="font-weight: 600;">Voice Commands Ready</span>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getVoiceFrame1() {
+                    return `
+                    <div style="background: linear-gradient(to bottom, rgb(243 232 255), white); height: 100%; padding: 2rem;">
+                        <div style="text-align: center; padding-top: 3rem;">
+                            <div style="font-size: 5rem; margin-bottom: 1.5rem;">🎤</div>
+                            <h1 style="font-size: 2rem; font-weight: bold; color: rgb(31 41 55); margin-bottom: 1rem;">Voice Cooking</h1>
+                            <p style="color: rgb(75 85 99); font-size: 1.125rem;">Hands-free AI guidance</p>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getVoiceFrame2() {
+                    return `
+                    <div style="background: linear-gradient(to bottom, rgb(243 232 255), white); height: 100%; padding: 2rem;">
+                        <div style="text-align: center; padding-top: 2rem;">
+                            <div style="font-size: 4rem; margin-bottom: 2rem;">🎤</div>
+                            <div style="background: white; border-radius: 1.5rem; padding: 2rem; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
+                                <div style="background: rgb(254 242 242); border-radius: 1rem; padding: 1rem; margin-bottom: 1rem; display: inline-flex; align-items: center;">
+                                    <div class="voice-dot"></div>
+                                    <span style="color: rgb(185 28 28); font-weight: 600;">Listening...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getVoiceFrame3() {
+                    return `
+                    <div style="background: linear-gradient(to bottom, rgb(243 232 255), white); height: 100%; padding: 2rem;">
+                        <div style="text-align: center; padding-top: 2rem;">
+                            <div style="background: white; border-radius: 1.5rem; padding: 2rem; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
+                                <div style="background: rgb(249 250 251); border-radius: 1rem; padding: 1.5rem; margin-bottom: 1rem;">
+                                    <h3 style="font-weight: bold; margin-bottom: 0.75rem; color: rgb(31 41 55);">You said:</h3>
+                                    <p style="color: rgb(55 65 81); font-size: 1.125rem; font-style: italic;">"What's the next step?"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getVoiceFrame4() {
+                    return `
+                    <div style="background: linear-gradient(to bottom, rgb(243 232 255), white); height: 100%; padding: 2rem;">
+                        <div style="text-align: center; padding-top: 2rem;">
+                            <div style="background: white; border-radius: 1.5rem; padding: 2rem; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
+                                <div style="background: rgb(239 246 255); border-radius: 1rem; padding: 1.5rem;">
+                                    <h3 style="font-weight: bold; margin-bottom: 0.75rem; color: rgb(30 64 175);">ChefGrocer says:</h3>
+                                    <p style="color: rgb(29 78 216); font-size: 1.125rem;">"Add cream and simmer for 3 minutes!"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getVoiceFrame5() {
+                    return `
+                    <div style="background: linear-gradient(to bottom, rgb(243 232 255), white); height: 100%; padding: 2rem;">
+                        <div style="padding-top: 2rem;">
+                            <div style="background: rgb(34 197 94); color: white; border-radius: 1rem; padding: 1.5rem; text-align: center; margin: 0 1rem;">
+                                <div style="font-size: 2rem; margin-bottom: 0.75rem;">⏰</div>
+                                <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 0.5rem;">Timer: 2:45</h3>
+                                <p style="opacity: 0.9;">Simmering cream sauce</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getRecipeFrame1() {
+                    return `
+                    <div style="background: rgb(249 250 251); height: 100%;">
+                        <div style="background: white; padding: 1.5rem; border-bottom: 1px solid rgb(229 231 235);">
+                            <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem; color: rgb(31 41 55);">500,000+ Recipes</h2>
+                            <div style="background: rgb(243 244 246); border-radius: 1rem; padding: 0.75rem; display: flex; align-items: center;">
+                                <div style="color: rgb(156 163 175); font-size: 1.25rem; margin-right: 0.75rem;">🔍</div>
+                                <span style="color: rgb(75 85 99);">Search anything...</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getRecipeFrame2() {
+                    return `
+                    <div style="background: rgb(249 250 251); height: 100%; padding: 1rem;">
+                        <div class="recipe-card">
+                            <div style="height: 10rem; background: linear-gradient(135deg, rgb(251 146 60), rgb(236 72 153)); display: flex; align-items: center; justify-content: center;">
+                                <div style="font-size: 4rem;">🍝</div>
+                            </div>
+                            <div style="padding: 1.25rem;">
+                                <h3 style="font-weight: bold; font-size: 1.125rem; margin-bottom: 0.5rem;">Creamy Garlic Pasta</h3>
+                                <div style="display: flex; align-items: center; font-size: 0.875rem; color: rgb(75 85 99); margin-bottom: 0.75rem;">
+                                    <span style="margin-right: 1rem;">⭐ 4.8</span>
+                                    <span style="margin-right: 1rem;">⏱️ 20 min</span>
+                                    <span>💰 $12.50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getRecipeFrame3() {
+                    return `
+                    <div style="background: rgb(249 250 251); height: 100%; padding: 1rem;">
+                        <div class="recipe-card">
+                            <div style="height: 10rem; background: linear-gradient(135deg, rgb(251 146 60), rgb(236 72 153)); display: flex; align-items: center; justify-content: center;">
+                                <div style="font-size: 4rem;">🍝</div>
+                            </div>
+                            <div style="padding: 1.25rem;">
+                                <h3 style="font-weight: bold; font-size: 1.125rem; margin-bottom: 0.5rem;">Creamy Garlic Pasta</h3>
+                                <div style="display: flex; align-items: center; font-size: 0.875rem; color: rgb(75 85 99); margin-bottom: 1rem;">
+                                    <span style="margin-right: 1rem;">⭐ 4.8 (2.1k)</span>
+                                    <span style="margin-right: 1rem;">⏱️ 20 min</span>
+                                    <span>👥 4 servings</span>
+                                </div>
+                                <div style="background: rgb(59 130 246); color: white; padding: 0.5rem 1rem; border-radius: 1rem; text-align: center; font-weight: 600;">
+                                    Cook Now
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getRecipeFrame4() {
+                    return `
+                    <div style="background: rgb(249 250 251); height: 100%; padding: 1rem;">
+                        <div class="recipe-card">
+                            <div style="height: 8rem; background: linear-gradient(135deg, rgb(34 197 94), rgb(59 130 246)); display: flex; align-items: center; justify-content: center;">
+                                <div style="font-size: 3rem;">🥗</div>
+                            </div>
+                            <div style="padding: 1rem;">
+                                <h3 style="font-weight: bold; margin-bottom: 0.5rem;">Mediterranean Bowl</h3>
+                                <div style="display: flex; align-items: center; font-size: 0.875rem; color: rgb(75 85 99); margin-bottom: 0.75rem;">
+                                    <span style="margin-right: 1rem;">⭐ 4.9</span>
+                                    <span style="margin-right: 1rem;">⏱️ 15 min</span>
+                                    <span>💰 $8.75</span>
+                                </div>
+                                <div style="background: rgb(59 130 246); color: white; padding: 0.5rem 1rem; border-radius: 1rem; text-align: center; font-weight: 600;">
+                                    Cook Now
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getRecipeFrame5() {
+                    return this.getRecipeFrame4(); // Reuse for consistency
+                }
+
+                getStoreFrame1() {
+                    return `
+                    <div style="background: rgb(249 250 251); height: 100%;">
+                        <div style="background: white; padding: 1.5rem; border-bottom: 1px solid rgb(229 231 235);">
+                            <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem;">Nearby Stores</h2>
+                            <div style="display: flex; align-items: center; color: rgb(75 85 99);">
+                                <span style="margin-right: 0.5rem;">📍</span>
+                                <span>Real locations via OpenStreetMap</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getStoreFrame2() {
+                    return `
+                    <div style="background: rgb(249 250 251); height: 100%; padding: 1rem;">
+                        <div class="store-card">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                                <div>
+                                    <h3 style="font-weight: bold; font-size: 1.125rem;">Walmart Supercenter</h3>
+                                    <p style="color: rgb(75 85 99);">3405 W Kimberly Rd</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: 600; color: rgb(34 197 94);">0.8 miles</div>
+                                    <div style="font-size: 0.75rem; color: rgb(107 114 128);">Open 24/7</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getStoreFrame3() {
+                    return `
+                    <div style="background: rgb(249 250 251); height: 100%; padding: 1rem;">
+                        <div class="store-card">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                                <div>
+                                    <h3 style="font-weight: bold; font-size: 1.125rem;">Hy-Vee Food Store</h3>
+                                    <p style="color: rgb(75 85 99);">1823 E Kimberly Rd</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: 600; color: rgb(34 197 94);">1.2 miles</div>
+                                    <div style="font-size: 0.75rem; color: rgb(107 114 128);">6am - 11pm</div>
+                                </div>
+                            </div>
+                            <div style="background: rgb(59 130 246); color: white; padding: 0.5rem 1rem; border-radius: 1rem; text-align: center; font-weight: 600;">
+                                Get Directions
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getStoreFrame4() {
+                    return `
+                    <div style="background: rgb(249 250 251); height: 100%; padding: 1rem;">
+                        <div class="store-card">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                                <div>
+                                    <h3 style="font-weight: bold; font-size: 1.125rem;">ALDI</h3>
+                                    <p style="color: rgb(75 85 99);">2600 W Locust St</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: 600; color: rgb(34 197 94);">1.8 miles</div>
+                                    <div style="font-size: 0.75rem; color: rgb(107 114 128);">9am - 8pm</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
+                                <span style="background: rgb(219 234 254); color: rgb(30 64 175); font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 1rem;">Supermarket</span>
+                                <span style="background: rgb(254 243 199); color: rgb(146 64 14); font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 1rem;">💰 Budget</span>
+                            </div>
+                            <div style="background: rgb(59 130 246); color: white; padding: 0.5rem 1rem; border-radius: 1rem; text-align: center; font-weight: 600;">
+                                Get Directions
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getStoreFrame5() {
+                    return this.getStoreFrame4(); // Reuse for consistency
+                }
+
+                getPricingFrame1() {
+                    return `
+                    <div style="background: linear-gradient(to bottom, rgb(238 242 255), white); height: 100%; padding: 2rem;">
+                        <div style="text-align: center; padding-top: 2rem;">
+                            <div style="font-size: 4rem; margin-bottom: 1rem;">✨</div>
+                            <h1 style="font-size: 2rem; font-weight: bold; margin-bottom: 0.75rem; color: rgb(31 41 55);">Choose Your Plan</h1>
+                            <p style="color: rgb(75 85 99);">Unlock the full potential</p>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getPricingFrame2() {
+                    return `
+                    <div style="background: linear-gradient(to bottom, rgb(238 242 255), white); height: 100%; padding: 1rem;">
+                        <div style="background: linear-gradient(135deg, rgb(34 197 94), rgb(59 130 246)); color: white; border-radius: 1.25rem; padding: 1.5rem; margin: 1rem; text-align: center;">
+                            <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">Premium</h3>
+                            <div style="font-size: 2.5rem; font-weight: bold; margin-bottom: 1rem;">$4.99<span style="font-size: 1rem; opacity: 0.75;">/month</span></div>
+                            <div style="text-align: left; margin-bottom: 1.5rem; opacity: 0.95;">
+                                <div style="margin-bottom: 0.5rem;">✓ Voice cooking guidance</div>
+                                <div style="margin-bottom: 0.5rem;">✓ AI meal planning</div>
+                                <div style="margin-bottom: 0.5rem;">✓ Price comparison</div>
+                                <div>✓ Nutrition tracking</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getPricingFrame3() {
+                    return `
+                    <div style="background: linear-gradient(to bottom, rgb(238 242 255), white); height: 100%; padding: 1rem;">
+                        <div style="background: linear-gradient(135deg, rgb(34 197 94), rgb(59 130 246)); color: white; border-radius: 1.25rem; padding: 1.5rem; margin: 1rem; text-align: center;">
+                            <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">Premium</h3>
+                            <div style="font-size: 2.5rem; font-weight: bold; margin-bottom: 1rem;">$4.99<span style="font-size: 1rem; opacity: 0.75;">/month</span></div>
+                            <div style="background: white; color: rgb(34 197 94); padding: 0.75rem 1.5rem; border-radius: 1rem; font-weight: bold;">
+                                Start Free Trial
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getPricingFrame4() {
+                    return `
+                    <div style="background: linear-gradient(to bottom, rgb(238 242 255), white); height: 100%; padding: 1rem;">
+                        <div style="background: linear-gradient(135deg, rgb(147 51 234), rgb(236 72 153)); color: white; border-radius: 1.25rem; padding: 1.5rem; margin: 1rem; text-align: center;">
+                            <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 0.5rem;">Lifetime Pass</h3>
+                            <div style="font-size: 2rem; font-weight: bold; margin-bottom: 1rem;">$99.99<span style="font-size: 1rem; opacity: 0.75;"> once</span></div>
+                            <p style="margin-bottom: 1rem; opacity: 0.9;">All premium features forever!</p>
+                            <div style="background: white; color: rgb(147 51 234); padding: 0.75rem 1.5rem; border-radius: 1rem; font-weight: bold;">
+                                Best Value
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getPricingFrame5() {
+                    return this.getPricingFrame4(); // Reuse for consistency
+                }
+
+                getCTAFrame1() {
+                    return `
+                    <div class="hero-bg">
+                        <div style="font-size: 5rem; margin-bottom: 1.5rem;">🚀</div>
+                        <h1 style="font-size: 2.5rem; font-weight: bold; margin-bottom: 1.5rem;">Start Cooking Smarter</h1>
+                    </div>
+                `;
+                }
+
+                getCTAFrame2() {
+                    return `
+                    <div class="hero-bg">
+                        <h1 style="font-size: 2.5rem; font-weight: bold; margin-bottom: 2rem;">Start Cooking Smarter</h1>
+                        <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 1rem; padding: 1rem 2rem; margin-bottom: 1rem;">
+                            <div style="font-size: 1.5rem; font-weight: bold;">500,000+ Recipes</div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getCTAFrame3() {
+                    return `
+                    <div class="hero-bg">
+                        <h1 style="font-size: 2.5rem; font-weight: bold; margin-bottom: 2rem;">Start Cooking Smarter</h1>
+                        <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 1rem; padding: 1rem 2rem; margin-bottom: 1rem;">
+                            <div style="font-size: 1.5rem; font-weight: bold;">Voice AI Guidance</div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getCTAFrame4() {
+                    return `
+                    <div class="hero-bg">
+                        <h1 style="font-size: 2.5rem; font-weight: bold; margin-bottom: 2rem;">Start Cooking Smarter</h1>
+                        <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 1rem; padding: 1rem 2rem; margin-bottom: 1rem;">
+                            <div style="font-size: 1.5rem; font-weight: bold;">Real Store Locations</div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                getCTAFrame5() {
+                    return `
+                    <div class="hero-bg">
+                        <h1 style="font-size: 2.5rem; font-weight: bold; margin-bottom: 2rem;">Start Cooking Smarter</h1>
+                        <div style="background: white; color: rgb(147 51 234); padding: 1rem 2.5rem; border-radius: 1rem; font-size: 1.25rem; font-weight: bold;">
+                            Download ChefGrocer
+                        </div>
+                    </div>
+                `;
+                }
+
+                loadFrame(index) {
+                    const frame = this.frames[index];
+                    document.getElementById("screenTitle").textContent =
+                        frame.title;
+                    document.getElementById("screenContent").innerHTML =
+                        frame.content;
+                }
+
+                async startExport() {
+                    if (this.isExporting) return;
+
+                    this.isExporting = true;
+                    document.getElementById("exportBtn").disabled = true;
+                    document.getElementById("exportBtn").textContent =
+                        "📹 Exporting...";
+
+                    for (let i = 0; i < this.totalFrames; i++) {
+                        this.loadFrame(i);
+
+                        // Wait a moment for render
+                        await new Promise((resolve) =>
+                            setTimeout(resolve, 500),
+                        );
+
+                        // Capture frame
+                        await this.captureFrame(i);
+
+                        // Update progress
+                        const progress = ((i + 1) / this.totalFrames) * 100;
+                        document.getElementById("progressFill").style.width =
+                            progress + "%";
+                        document.getElementById("status").textContent =
+                            `Exported frame ${i + 1} of ${this.totalFrames}`;
+                    }
+
+                    this.isExporting = false;
+                    document.getElementById("exportBtn").disabled = false;
+                    document.getElementById("exportBtn").textContent =
+                        "📹 Export Complete!";
+                    document.getElementById("status").textContent =
+                        "All 30 frames exported! Check your downloads.";
+                }
+
+                async captureFrame(frameNumber) {
+                    const canvas = await html2canvas(
+                        document.getElementById("phoneContainer"),
+                        {
+                            width: 430,
+                            height: 932,
+                            scale: 2,
+                            backgroundColor: "#000000",
+                        },
+                    );
+
+                    // Convert to blob and download
+                    canvas.toBlob((blob) => {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = `chefgrocer-frame-${String(frameNumber + 1).padStart(2, "0")}.png`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    }, "image/png");
+                }
+            }
+
+            // Initialize when page loads
+            window.addEventListener("load", () => {
+                new VideoFrameExporter();
+            });
+        </script>
+    </body>
+</html>

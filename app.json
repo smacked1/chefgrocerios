@@ -1,0 +1,53 @@
+{
+  "expo": {
+    "name": "ChefGrocer",
+    "slug": "chefgrocer",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon-foreground.svg",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.svg",
+      "resizeMode": "contain",
+      "backgroundColor": "#10b981"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.chefgrocer.app",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "ChefGrocer uses your microphone for voice-activated recipe search, cooking timers, and hands-free meal planning while your hands are busy cooking.",
+        "NSCameraUsageDescription": "ChefGrocer uses your camera to scan product barcodes for instant nutrition information, ingredient identification, and to add items to your grocery list."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon-foreground.svg",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.chefgrocer.app"
+    },
+    "web": {
+      "favicon": "./client/public/favicon.svg",
+      "bundler": "webpack"
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "13.0"
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "chefgrocer-ai-assistant"
+      }
+    }
+  }
+}

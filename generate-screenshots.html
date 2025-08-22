@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChefGrocer - App Store Screenshots</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* iPhone 15 Pro Max dimensions: 430x932px */
+        .iphone-screen {
+            width: 430px;
+            height: 932px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .status-bar {
+            height: 54px;
+            background: rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .app-content {
+            height: 878px;
+            background: white;
+            border-radius: 0;
+            overflow-y: auto;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #ec4899 100%);
+            color: white;
+            padding: 60px 30px 40px;
+            text-align: center;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin: 16px 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid #f1f5f9;
+        }
+        
+        .price-card {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 32px 24px;
+            margin: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .price-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .voice-indicator {
+            width: 20px;
+            height: 20px;
+            background: #ef4444;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+    <!-- Screenshot 1: Home Screen -->
+    <div class="iphone-screen mb-8" id="screenshot1">
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>ChefGrocer</span>
+            <div class="flex items-center gap-1">
+                <div class="w-1 h-1 bg-white rounded-full"></div>
+                <div class="w-1 h-1 bg-white rounded-full"></div>
+                <div class="w-1 h-1 bg-white rounded-full"></div>
+                <span class="ml-2">100%</span>
+            </div>
+        </div>
+        <div class="app-content">
+            <div class="hero-section">
+                <div class="text-6xl mb-4">👨‍🍳</div>
+                <h1 class="text-3xl font-bold mb-3">ChefGrocer</h1>
+                <p class="text-lg opacity-90 mb-6">Your AI-Powered Kitchen Assistant</p>
+                <div class="bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 inline-flex items-center">
+                    <div class="voice-indicator"></div>
+                    <span class="text-sm font-semibold">Voice Commands Ready</span>
+                </div>
+            </div>
+            
+            <div class="px-6 py-8">
+                <div class="feature-card">
+                    <div class="flex items-center mb-4">
+                        <div class="text-3xl mr-4">🎯</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800">Smart Meal Planning</h3>
+                            <p class="text-gray-600">AI suggests personalized recipes</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="flex items-center mb-4">
+                        <div class="text-3xl mr-4">🛒</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800">Smart Shopping</h3>
+                            <p class="text-gray-600">Find nearby stores & best prices</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="flex items-center mb-4">
+                        <div class="text-3xl mr-4">🎤</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800">Voice Control</h3>
+                            <p class="text-gray-600">Hands-free cooking guidance</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screenshot 2: Recipe Discovery -->
+    <div class="iphone-screen mb-8" id="screenshot2">
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>Recipes</span>
+            <div class="flex items-center gap-1">
+                <div class="w-1 h-1 bg-white rounded-full"></div>
+                <div class="w-1 h-1 bg-white rounded-full"></div>
+                <div class="w-1 h-1 bg-white rounded-full"></div>
+                <span class="ml-2">100%</span>
+            </div>
+        </div>
+        <div class="app-content bg-gray-50">
+            <div class="bg-white px-6 py-4 border-b">
+                <div class="bg-gray-100 rounded-full px-4 py-3 flex items-center">
+                    <div class="text-gray-400 text-xl mr-3">🔍</div>
+                    <input type="text" placeholder="Search 500,000+ recipes..." class="flex-1 bg-transparent outline-none text-gray-700">
+                    <div class="voice-indicator"></div>
+                </div>
+            </div>
+            
+            <div class="p-4">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Trending Recipes</h2>
+                
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg mb-4">
+                    <div class="h-48 bg-gradient-to-br from-orange-400 to-pink-400 flex items-center justify-center">
+                        <div class="text-6xl">🍝</div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-2">Creamy Garlic Pasta</h3>
+                        <div class="flex items-center text-sm text-gray-600 mb-3">
+                            <span class="mr-4">⭐ 4.8 (2.1k)</span>
+                            <span class="mr-4">⏱️ 20 min</span>
+                            <span>👥 4 servings</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-green-600 font-semibold">$12.50 total cost</span>
+                            <div class="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                                Cook Now
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="h-48 bg-gradient-to-br from-green-400 to-blue-400 flex items-center justify-center">
+                        <div class="text-6xl">🥗</div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-2">Mediterranean Bowl</h3>
+                        <div class="flex items-center text-sm text-gray-600 mb-3">
+                            <span class="mr-4">⭐ 4.9 (1.8k)</span>
+                            <span class="mr-4">⏱️ 15 min</span>
+                            <span>👥 2 servings</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-green-600 font-semibold">$8.75 total cost</span>
+                            <div class="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                                Cook Now
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screenshot 3: Voice Cooking -->
+    <div class="iphone-screen mb-8" id="screenshot3">
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>Voice Cooking</span>
+            <div class="flex items-center gap-1">
+                <div class="w-1 h-1 bg-white rounded-full"></div>
+                <div class="w-1 h-1 bg-white rounded-full"></div>
+                <div class="w-1 h-1 bg-white rounded-full"></div>
+                <span class="ml-2">100%</span>
+            </div>
+        </div>
+        <div class="app-content bg-gradient-to-b from-purple-50 to-white">
+            <div class="text-center pt-12 px-6">
+                <div class="text-8xl mb-6">🎤</div>
+                <h1 class="text-3xl font-bold mb-4 text-gray-800">Voice Cooking Mode</h1>
+                <p class="text-gray-600 mb-8 text-lg">Hands-free cooking guidance with AI</p>
+            </div>
+            
+            <div class="bg-white mx-4 rounded-3xl p-8 shadow-2xl mb-8">
+                <div class="text-center mb-6">
+                    <div class="inline-flex items-center bg-red-100 px-6 py-3 rounded-full mb-4">
+                        <div class="voice-indicator mr-3"></div>
+                        <span class="font-semibold text-red-700">Listening...</span>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-2xl p-6 mb-6">
+                    <h3 class="font-bold text-lg mb-3 text-gray-800">You said:</h3>
+                    <p class="text-gray-700 text-lg italic">"What's the next step for my pasta?"</p>
+                </div>
+                
+                <div class="bg-blue-50 rounded-2xl p-6">
+                    <h3 class="font-bold text-lg mb-3 text-blue-800">ChefGrocer says:</h3>
+                    <p class="text-blue-700 text-lg">"Now add the cream and let it simmer for 3 minutes. I'll set a timer for you!"</p>
+                </div>
+            </div>
+            
+            <div class="px-6">
+                <div class="bg-green-500 text-white rounded-2xl p-6 text-center">
+                    <div class="text-3xl mb-3">⏰</div>
+                    <h3 class="text-xl font-bold mb-2">Timer: 2:45</h3>
+                    <p class="opacity-90">Simmering cream sauce</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screenshot 4: Store Locator -->
+    <div class="iphone-screen mb-8" id="screenshot4">
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>Nearby Stores</span>
+            <div class="flex items-center gap-1">
+                <div class="w-1 h-1 bg-white rounded-full"></div>
+                <div class="w-1 h-1 bg-white rounded-full"></div>
+                <div class="w-1 h-1 bg-white rounded-full"></div>
+                <span class="ml-2">100%</span>
+            </div>
+        </div>
+        <div class="app-content bg-gray-50">
+            <div class="bg-white px-6 py-4 border-b">
+                <h2 class="text-2xl font-bold mb-4">Nearby Grocery Stores</h2>
+                <div class="bg-gray-100 rounded-full px-4 py-3 flex items-center">
+                    <div class="text-gray-400 text-xl mr-3">📍</div>
+                    <span class="text-gray-600">Davenport, IA • 5 miles radius</span>
+                </div>
+            </div>
+            
+            <div class="p-4 space-y-4">
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-800">Walmart Supercenter</h3>
+                            <p class="text-gray-600">3405 W Kimberly Rd</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-semibold text-green-600">0.8 miles</div>
+                            <div class="text-xs text-gray-500">Open 24/7</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Supermarket</span>
+                        <span class="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">♿ Accessible</span>
+                    </div>
+                    <div class="bg-blue-500 text-white px-4 py-2 rounded-full text-center text-sm font-semibold">
+                        Get Directions
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-800">Hy-Vee Food Store</h3>
+                            <p class="text-gray-600">1823 E Kimberly Rd</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-semibold text-green-600">1.2 miles</div>
+                            <div class="text-xs text-gray-500">6am - 11pm</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Supermarket</span>
+                        <span class="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">♿ Accessible</span>
+                    </div>
+                    <div class="bg-blue-500 text-white px-4 py-2 rounded-full text-center text-sm font-semibold">
+                        Get Directions
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-800">ALDI</h3>
+                            <p class="text-gray-600">2600 W Locust St</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-semibold text-green-600">1.8 miles</div>
+                            <div class="text-xs text-gray-500">9am - 8pm</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Supermarket</span>
+                        <span class="bg-orange-100 text-orange-800 text-xs px-3 py-1 rounded-full">💰 Budget</span>
+                    </div>
+                    <div class="bg-blue-500 text-white px-4 py-2 rounded-full text-center text-sm font-semibold">
+                        Get Directions
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screenshot 5: Pricing -->
+    <div class="iphone-screen mb-8" id="screenshot5">
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>Premium Features</span>
+            <div class="flex items-center gap-1">
+                <div class="w-1 h-1 bg-white rounded-full"></div>
+                <div class="w-1 h-1 bg-white rounded-full"></div>
+                <div class="w-1 h-1 bg-white rounded-full"></div>
+                <span class="ml-2">100%</span>
+            </div>
+        </div>
+        <div class="app-content bg-gradient-to-b from-indigo-50 to-white">
+            <div class="text-center pt-8 px-6">
+                <div class="text-6xl mb-4">✨</div>
+                <h1 class="text-3xl font-bold mb-3 text-gray-800">Choose Your Plan</h1>
+                <p class="text-gray-600 mb-8">Unlock the full potential of ChefGrocer</p>
+            </div>
+            
+            <div class="px-4 space-y-4">
+                <div class="bg-white rounded-2xl p-6 shadow-sm border-2 border-gray-100">
+                    <div class="text-center">
+                        <h3 class="text-xl font-bold mb-2">Free</h3>
+                        <div class="text-3xl font-bold mb-4">$0<span class="text-lg text-gray-500">/month</span></div>
+                        <ul class="text-left space-y-3 text-gray-700 mb-6">
+                            <li class="flex items-center"><span class="text-green-500 mr-3">✓</span>Basic recipes</li>
+                            <li class="flex items-center"><span class="text-green-500 mr-3">✓</span>Simple meal planning</li>
+                            <li class="flex items-center"><span class="text-green-500 mr-3">✓</span>Store locator</li>
+                            <li class="flex items-center"><span class="text-gray-400 mr-3">✗</span>Voice commands</li>
+                        </ul>
+                        <div class="bg-gray-100 text-gray-700 px-6 py-3 rounded-full font-semibold">
+                            Current Plan
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="price-card relative">
+                    <div class="absolute top-4 right-4 bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-xs font-bold">
+                        MOST POPULAR
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Premium</h3>
+                    <div class="text-4xl font-bold mb-4">$4.99<span class="text-lg opacity-75">/month</span></div>
+                    <ul class="text-left space-y-3 mb-6 opacity-95">
+                        <li class="flex items-center"><span class="mr-3">✓</span>Everything in Free</li>
+                        <li class="flex items-center"><span class="mr-3">✓</span>Voice cooking guidance</li>
+                        <li class="flex items-center"><span class="mr-3">✓</span>AI meal planning</li>
+                        <li class="flex items-center"><span class="mr-3">✓</span>Price comparison</li>
+                        <li class="flex items-center"><span class="mr-3">✓</span>Nutrition tracking</li>
+                    </ul>
+                    <div class="bg-white text-green-600 px-6 py-3 rounded-full font-bold">
+                        Start Free Trial
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl p-6">
+                    <div class="text-center">
+                        <h3 class="text-xl font-bold mb-2">Lifetime Pass</h3>
+                        <div class="text-3xl font-bold mb-4">$99.99<span class="text-lg opacity-75"> once</span></div>
+                        <p class="mb-4 opacity-90">All premium features forever!</p>
+                        <div class="bg-white text-purple-600 px-6 py-3 rounded-full font-bold">
+                            Best Value
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function captureScreenshot(elementId, filename) {
+            html2canvas(document.getElementById(elementId), {
+                width: 430,
+                height: 932,
+                scale: 2
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = filename;
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+        
+        // Auto-generate screenshots on load
+        window.addEventListener('load', () => {
+            console.log('Screenshots ready for Apple App Store submission');
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>

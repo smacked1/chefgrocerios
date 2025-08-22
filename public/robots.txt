@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /subscribe/
+
+# Sitemap location
+Sitemap: https://chefgrocer.replit.app/sitemap.xml
