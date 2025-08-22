@@ -1,0 +1,464 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Production-Ready Mobile Optimizations */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    touch-action: manipulation;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+    background: linear-gradient(135deg, #fdba74 0%, #ea580c 100%);
+    min-height: 100vh;
+  }
+
+  /* Prevent zoom on input focus in iOS */
+  input, textarea, select {
+    font-size: 16px !important;
+    border-radius: 8px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  /* Touch-friendly interactive elements */
+  button, .btn, [role="button"], a, input, select, textarea {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px;
+    min-width: 44px;
+    cursor: pointer;
+  }
+
+  /* Improve mobile scrolling performance */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Safe area support for iPhone */
+  @supports (padding: env(safe-area-inset-top)) {
+    .safe-top { padding-top: env(safe-area-inset-top); }
+    .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+    .safe-left { padding-left: env(safe-area-inset-left); }
+    .safe-right { padding-right: env(safe-area-inset-right); }
+  }
+
+  /* Mobile-first responsive breakpoints */
+  .mobile-container {
+    width: 100%;
+    max-width: 100vw;
+    padding: 0 16px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-container {
+      max-width: 768px;
+      padding: 0 24px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .mobile-container {
+      max-width: 1024px;
+      padding: 0 32px;
+    }
+  }
+
+  /* High-Contrast Orange Theme Variables - No Grey Text */
+  :root {
+    --orange-50: #fff5f0;
+    --orange-100: #ffe8d6;
+    --orange-200: #ffcc9e;
+    --orange-300: #ffaa66;
+    --orange-400: #ff8833;
+    --orange-500: #ff5500;
+    --orange-600: #ff7700;
+    --orange-700: #cc4400;
+    --orange-800: #b33300;
+    --orange-900: #992200;
+    --gradient-primary: linear-gradient(135deg, #ff5500, #ff7700);
+    --gradient-secondary: linear-gradient(135deg, #ffcc9e, #ff8833);
+    --gradient-warm: linear-gradient(135deg, #ff8833, #ff6600, #e55500);
+    --shadow-orange: 0 10px 25px -3px rgba(255, 102, 0, 0.15), 0 4px 6px -2px rgba(255, 102, 0, 0.08);
+    
+    /* High contrast text colors - NO GREY */
+    --text-primary: #1a1a1a;     /* Dark black for primary text */
+    --text-secondary: #333333;    /* Dark grey for secondary text */
+    --text-accent: #ff5500;       /* Orange for accent text */
+    --text-inverse: #ffffff;      /* White for dark backgrounds */
+    --text-muted: #4a4a4a;       /* Dark grey instead of light grey */
+    
+    /* Background colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #fff5f0;
+    --bg-accent: #ff5500;
+    --bg-muted: #ffe8d6;
+    
+    /* Border colors */
+    --border-primary: #e5e5e5;
+    --border-accent: #ff8833;
+    --border-muted: #ffcc9e;
+  }
+
+  /* Force high contrast text throughout app */
+  body, p, span, div, h1, h2, h3, h4, h5, h6, label, li, td, th {
+    color: var(--text-primary) !important;
+  }
+  
+  /* Secondary text elements */
+  .text-muted, .text-secondary, .text-gray-600, .text-gray-500, .text-gray-400 {
+    color: var(--text-muted) !important;
+  }
+  
+  /* Accent text */
+  .text-orange-500, .text-orange-600, .text-primary {
+    color: var(--text-accent) !important;
+  }
+
+  /* Smooth Animations */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.5s ease-out;
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-100%); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Enhanced Hover Effects */
+  .hover-lift {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-orange);
+  }
+
+  /* Glass Morphism */
+  .glass-effect {
+    backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(249, 115, 22, 0.2);
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--orange-100);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--gradient-primary);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--orange-700);
+  }
+
+  /* Prevent horizontal scroll on mobile */
+  .mobile-no-scroll {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+}
+
+/* PWA and Mobile Optimizations */
+@layer base {
+  /* Prevent iOS zoom on form inputs */
+  input[type="color"],
+  input[type="date"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="email"],
+  input[type="month"],
+  input[type="number"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="text"],
+  input[type="time"],
+  input[type="url"],
+  input[type="week"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* Smooth scrolling for better mobile experience */
+  html {
+    scroll-behavior: smooth;
+    -webkit-touch-callout: none;
+  }
+
+  /* Prevent text selection on UI elements */
+  button, .btn {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Better tap targets for mobile */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* PWA Status Bar spacing for iOS */
+  @supports (padding-top: env(safe-area-inset-top)) {
+    .safe-area-top {
+      padding-top: env(safe-area-inset-top);
+    }
+    
+    .safe-area-bottom {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    .safe-area-left {
+      padding-left: env(safe-area-inset-left);
+    }
+    
+    .safe-area-right {
+      padding-right: env(safe-area-inset-right);
+    }
+  }
+
+  /* Optimize for PWA standalone mode */
+  @media (display-mode: standalone) {
+    body {
+      /* Hide scrollbars in standalone mode */
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Custom scrollbar for webkit browsers */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #10b981;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #059669;
+    }
+  }
+
+  /* Better touch feedback */
+  .touch-feedback {
+    -webkit-tap-highlight-color: rgba(16, 185, 129, 0.2);
+    transition: background-color 0.1s ease;
+  }
+
+  .touch-feedback:active {
+    background-color: rgba(16, 185, 129, 0.1);
+  }
+
+  /* Mobile-first spacing */
+  @media (max-width: 768px) {
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    /* Larger touch targets on mobile */
+    .mobile-touch {
+      min-height: 48px;
+      padding: 12px 16px;
+    }
+  }
+
+  /* Loading states for better perceived performance */
+  .loading-shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0)
+    );
+    background-size: 400px 100%;
+    animation: shimmer 1.2s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -400px 0;
+    }
+    100% {
+      background-position: 400px 0;
+    }
+  }
+}
+
+:root {
+  --background: hsl(30, 60%, 95%); /* Light orange background */
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(30, 50%, 88%); /* Light orange muted */
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(30, 60%, 92%); /* Light orange popover */
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(30, 50%, 90%); /* Light orange cards */
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(24, 15%, 88%);
+  --input: hsl(24, 15%, 88%);
+  --primary: hsl(24, 95%, 53%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(24, 15%, 92%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(24, 30%, 85%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(24, 95%, 53%);
+  --radius: 0.5rem;
+  
+  /* Warm orange color scheme */
+  --chef-orange: hsl(24, 95%, 53%);
+  --chef-orange-light: hsl(25, 95%, 80%);
+  --chef-orange-dark: hsl(20, 95%, 40%);
+  --chef-cream: hsl(25, 50%, 95%);
+  --chef-warm: hsl(28, 100%, 88%);
+  --chef-accent: hsl(16, 85%, 65%);
+}
+
+.dark {
+  --background: hsl(20, 15%, 8%);
+  --foreground: hsl(25, 25%, 95%);
+  --muted: hsl(20, 10%, 15%);
+  --muted-foreground: hsl(25, 15%, 60%);
+  --popover: hsl(20, 15%, 8%);
+  --popover-foreground: hsl(25, 25%, 95%);
+  --card: hsl(20, 15%, 8%);
+  --card-foreground: hsl(25, 25%, 95%);
+  --border: hsl(20, 10%, 18%);
+  --input: hsl(20, 10%, 18%);
+  --primary: hsl(24, 95%, 53%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(20, 10%, 15%);
+  --secondary-foreground: hsl(25, 25%, 95%);
+  --accent: hsl(20, 15%, 20%);
+  --accent-foreground: hsl(25, 25%, 95%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(25, 25%, 95%);
+  --ring: hsl(24, 95%, 53%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .chef-orange {
+    color: var(--chef-orange);
+  }
+  
+  .bg-chef-orange {
+    background-color: var(--chef-orange);
+  }
+  
+  .chef-orange-light {
+    color: var(--chef-orange-light);
+  }
+  
+  .bg-chef-orange-light {
+    background-color: var(--chef-orange-light);
+  }
+  
+  .chef-orange-dark {
+    color: var(--chef-orange-dark);
+  }
+  
+  .bg-chef-orange-dark {
+    background-color: var(--chef-orange-dark);
+  }
+  
+  .chef-cream {
+    color: var(--chef-cream);
+  }
+  
+  .bg-chef-cream {
+    background-color: var(--chef-cream);
+  }
+  
+  .chef-warm {
+    color: var(--chef-warm);
+  }
+  
+  .bg-chef-warm {
+    background-color: var(--chef-warm);
+  }
+  
+  .chef-accent {
+    color: var(--chef-accent);
+  }
+  
+  .bg-chef-accent {
+    background-color: var(--chef-accent);
+  }
+}
